@@ -1,4 +1,4 @@
-{pkgs, stdenv, ...}:
+{pkgs, stdenv,lib, ...}:
 let
   extensions = (with pkgs.vscode-extensions; [
       bbenoist.Nix
@@ -24,26 +24,32 @@ let
       name = "cmake-tools";
       publisher = "ms-vscode";
       version = "1.6.0";
-      sha256 = "1r093na1735q85vprifqaach7vc2x85ck7mwqdywrmkpxbbj2248";
+      sha256 = "1j3b6wzlb5r9q2v023qq965y0avz6dphcn0f5vwm9ns9ilcgm3dw";
   }
   {
     name = "cmake";
     publisher = "twxs";
     version = "0.0.17";
-    sha256 = "0bjpf3bscgxh41n306jk509rgpq9l55mpzwk4r99k82dq9qzl7ya";
+    sha256 = "11hzjd0gxkq37689rrr2aszxng5l9fwpgs9nnglq3zhfa1msyn08";
   }
   {
-    name = "";
-    publisher = "";
-    version = "";
-    sha256 = "";
+    name = "tabnine-vscode";
+    publisher = "TabNine";
+    version = "3.2.16";
+    sha256 = "16bb08486cda2z33g503s0lyi4lx5virjsc4ibrgy2hikg2qcgw3";
   }
-  {
-    name = "";
-    publisher = "";
-    version = "";
-    sha256 = "";
-  }
+  # {
+  #   name = "";
+  #   publisher = "";
+  #   version = "";
+  #   sha256 = "";
+  # }
+  # {
+  #   name = "";
+  #   publisher = "";
+  #   version = "";
+  #   sha256 = "";
+  # }
   ];
   vscode-with-extensions = pkgs.vscode-with-extensions.override {
       vscodeExtensions = extensions;
@@ -53,4 +59,17 @@ in
   environment.systemPackages = [
     vscode-with-extensions
   ];
+
+  system.activationScripts.fix-vscode-extensions = {
+      text = ''
+          EXT_DIR=/home/yxb/.vscode/extensions
+          mkdir -p $EXT_DIR
+          chown yxb:users $EXT_DIR
+          for x in ${lib.concatMapStringsSep " " toString extensions}; do
+              ln -sf $x/share/vscode/extensions/* $EXT_DIR/
+          done
+          chown -R yxb:users $EXT_DIR
+      '';
+      deps = [];
+  };
 }

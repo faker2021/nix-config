@@ -33,12 +33,18 @@
         version = "0.0.17";
         sha256 = "11hzjd0gxkq37689rrr2aszxng5l9fwpgs9nnglq3zhfa1msyn08";
       }
-      # {
-      #   name = "";
-      #   publisher = "";
-      #   version = "";
-      #   sha256 = "";
-      # }
+      {
+        name = "tabnine-vscode";
+        publisher = "TabNine";
+        version = "3.2.16";
+        sha256 = "16bb08486cda2z33g503s0lyi4lx5virjsc4ibrgy2hikg2qcgw3";
+      }
+    #   {
+    #     name = "";
+    #     publisher = "";
+    #     version = "";
+    #     sha256 = "";
+    #   }
       ];
    };
         vscode.user = lib.mkOption { default = "yxb";};     # <- Must be supplied

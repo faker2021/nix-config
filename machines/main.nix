@@ -2,14 +2,15 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [ 
     #(fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
-    ../vscode.nix
+    ../vscode-remote.nix
     /home/yxb/workspace/jsy-mirrorer/modules/jsy-mirrorer.nix
   ];
+
 
   # network
   networking.firewall.enable = false;
@@ -19,6 +20,7 @@
   };
 
   services.openssh.enable = true;
+  services.sshd.enable = true;
 
   
    nix = {
@@ -106,6 +108,8 @@
   users.users.yxb = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "docker" ];
+    openssh.authorizedKeys.keys =
+  [ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCuyN4abRSZQQFo/hRqPcYoPql7mMUCmZiGP/mgr8groYSQwWjCKga7JZy7kTo5pR3Nh1VVeyP3HKfT8ISZcmV6/j9TsBSWodqk8AwBLa371cL7UN9wzwq60SFznqn75r71ct+kvM59Eh5k9v8SXJUubPArHaThFFckFUR2IsczrGpn7VoLVTAaW11vtKOJCjIBBgnwiKA+sy8QFKmBxgfeRaPFF7ISJSwik3hOUUKowEGLsUz14YrGXOH/xbEjIOBodUMgyAsUpLDDyKmDyLRAF7NF+SNvkuF7/k0hKCJsViPgV9lv+A9wrpGpNyWARGmxs0HKkiED6AVKWXkUt8aP yxb@winstudio" ];
   };
 
 
