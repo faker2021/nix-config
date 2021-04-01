@@ -12,6 +12,7 @@
   ];
 
   # network
+  networking.firewall.enable = false;
   networking = {
     hostName = "workst";
     networkmanager.enable = true;
