@@ -3,15 +3,15 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, lib, ... }:
-
 {
   imports = [ 
     #(fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
-    ../vscode-remote.nix
+    #../vscode-remote.nix
     /home/yxb/workspace/jsy-mirrorer/modules/jsy-mirrorer.nix
+    
   ];
 
-
+  services.flatpak.enable = true;
   # network
   networking.firewall.enable = false;
   networking = {
@@ -33,7 +33,7 @@
 
   # localization
   i18n = {
-    defaultLocale = "zh_CN.UTF-8";
+    defaultLocale = "en_US.UTF-8";
     supportedLocales = [ "zh_CN.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
     inputMethod = {
       enabled = "fcitx";
@@ -129,7 +129,7 @@
   environment.systemPackages = with pkgs; [
     
     git google-chrome teamviewer  clang cmake proxychains tree synergy nodejs-12_x
-
+    vscode
     chrome-gnome-shell
     gnome3.gnome-tweak-tool
     gnomeExtensions.appindicator
@@ -138,6 +138,8 @@
     gnome3.gnome-weather
     gnomeExtensions.sound-output-device-chooser
     #(callPackage ./mypkgs/synergy {})
+    (callPackage ../pkgs/dirspatchelf { })
+    (callPackage ../pkgs/fix-vscode { })
   ];
   services.teamviewer.enable = true;
 
