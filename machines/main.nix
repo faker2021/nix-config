@@ -8,14 +8,14 @@
     #(fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     #../vscode-remote.nix
     /home/yxb/workspace/jsy-mirrorer/modules/jsy-mirrorer.nix
-    ../modules/xrdp.nix
+    # ../modules/xrdp.nix does not work 
     ../modules/network.nix
     ../modules/i18n.nix
     ../modules/fonts.nix
     ../modules/user.nix
-    ../modules/docker.nix
+    # ../modules/docker.nix
     ../modules/gdm-gnome.nix
-    ../modules/proxychains.nix
+    # ../modules/proxychains.nix
     ../modules/flakes.nix
     ../modules/kernel.nix
   ];

@@ -20,6 +20,7 @@
 
   };
   services.gnome.chrome-gnome-shell.enable = true;
+  services.gnome.gnome-remote-desktop.enable = true;
 
   environment.systemPackages = with pkgs; [
     google-chrome synergy
