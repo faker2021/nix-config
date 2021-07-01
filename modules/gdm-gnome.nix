@@ -8,7 +8,7 @@
     displayManager = { 
       gdm = {
         enable = true;
-        wayland = false;
+        wayland = true;
       };
       autoLogin = {
         enable = true;
@@ -25,11 +25,11 @@
   environment.systemPackages = with pkgs; [
     google-chrome synergy
     chrome-gnome-shell
-    gnome3.gnome-tweak-tool
+    gnome.gnome-tweak-tool
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
     gnomeExtensions.system-monitor
-    gnome3.gnome-weather
+    gnome.gnome-weather
     gnomeExtensions.sound-output-device-chooser
   ];
   services.teamviewer.enable = true;
