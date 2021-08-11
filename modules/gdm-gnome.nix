@@ -8,7 +8,7 @@
     displayManager = { 
       gdm = {
         enable = true;
-        wayland = true;
+        wayland = false;
       };
       autoLogin = {
         enable = true;

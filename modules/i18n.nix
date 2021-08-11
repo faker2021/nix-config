@@ -1,12 +1,12 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
+
 {
-  # localization
   i18n = {
-    defaultLocale = "en_US.UTF-8";
+    defaultLocale = "zh_CN.UTF-8";
     supportedLocales = [ "zh_CN.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
     inputMethod = {
-      enabled = "fcitx";
-      fcitx.engines = with pkgs.fcitx-engines; [ cloudpinyin ];
+      enabled = "fcitx5";
+      fcitx5.addons = [ pkgs.fcitx5-chinese-addons ];
     };
   };
 

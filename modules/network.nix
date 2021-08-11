@@ -2,7 +2,7 @@
 {
   networking.firewall.enable = false;
   networking = {
-    hostName = "workst";
+    hostName = "wst";
     networkmanager.enable = true;
   };
   services.openssh.enable = true;
