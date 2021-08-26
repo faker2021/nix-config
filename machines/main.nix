@@ -14,7 +14,7 @@
     ../modules/i18n.nix
     ../modules/fonts.nix
     ../modules/user.nix
-    # ../modules/docker.nix
+    ../modules/docker.nix
     ../modules/gdm-gnome.nix
     # ../modules/proxychains.nix
     ../modules/flakes.nix
