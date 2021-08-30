@@ -41,6 +41,7 @@
     vscode nodejs-14_x
     zeal synergy foliate
     (callPackage ../pkgs/dirspatchelf { })
+    (callPackage ../pkgs/edge { gconf = gnome2.GConf; })
   ];
   
 
