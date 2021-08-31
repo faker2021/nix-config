@@ -39,9 +39,10 @@
   environment.systemPackages = with pkgs; [
     git clang_11 cmake tree nethogs unrar patchelf
     vscode nodejs-14_x
-    zeal synergy foliate simplenote 
+    zeal synergy foliate simplenote dropbox
     (callPackage ../pkgs/dirspatchelf { })
     (callPackage ../pkgs/edge { gconf = gnome2.GConf; })
+    (libsForQt514.callPackage ../pkgs/landrop {})
   ];
   
 
