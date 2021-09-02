@@ -42,7 +42,8 @@
     zeal synergy foliate simplenote dropbox
     (callPackage ../pkgs/dirspatchelf { })
     (callPackage ../pkgs/edge { gconf = gnome2.GConf; })
-    (libsForQt514.callPackage ../pkgs/landrop {})
+    (callPackage ../pkgs/landrop {})
+    (callPackage ../pkgs/listen1 {})
   ];
   
 
