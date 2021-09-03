@@ -44,6 +44,7 @@
     (callPackage ../pkgs/edge { gconf = gnome2.GConf; })
     (callPackage ../pkgs/landrop {})
     (callPackage ../pkgs/listen1 {})
+    (callPackage ../pkgs/telegram {})
   ];
   
 
