@@ -38,13 +38,12 @@
   #nixpkgs.overlays = [ (import ./mypkgs/synergy) ];
   environment.systemPackages = with pkgs; [
     git clang_11 cmake tree nethogs unrar patchelf
-    vscode nodejs-14_x
+    vscode nodejs-14_x tdesktop
     zeal synergy foliate simplenote dropbox
     (callPackage ../pkgs/dirspatchelf { })
     (callPackage ../pkgs/edge { gconf = gnome2.GConf; })
     (callPackage ../pkgs/landrop {})
     (callPackage ../pkgs/listen1 {})
-    (callPackage ../pkgs/telegram {})
   ];
   
 
