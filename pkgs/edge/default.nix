@@ -133,7 +133,7 @@ in stdenv.mkDerivation {
       --prefix PATH            : "$binpath" \
       --prefix XDG_DATA_DIRS   : "$XDG_ICON_DIRS:$GSETTINGS_SCHEMAS_PATH" \
       --add-flags ${escapeShellArg commandLineArgs}
-    for elf in $out/share/microsoft/$appname/{msedge,msedge-sandbox,crashpad_handler,nacl_helper}; do
+    for elf in $out/share/microsoft/$appname/{msedge,msedge-sandbox,nacl_helper}; do
       patchelf --set-rpath $rpath $elf
       patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $elf
     done
