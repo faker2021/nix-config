@@ -20,6 +20,7 @@
     ../modules/flakes.nix
     ../modules/kernel.nix
     ../modules/steam.nix
+    ../modules/anbox.nix
     
   ];
 

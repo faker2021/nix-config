@@ -51,7 +51,7 @@ let
     withCustomModes = true;
   };
 
-  version = "94.0.992.9";
+  version = "93.0.961.33";
 
   deps = [
     glib fontconfig freetype pango cairo libX11 libXi atk gconf nss nspr
@@ -78,8 +78,8 @@ in stdenv.mkDerivation {
   name = "microsoft-edge${suffix}-${version}";
 
   src = fetchurl {
-    url = "https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-beta/microsoft-edge-beta_94.0.992.9-1_amd64.deb";
-    sha256 = "1qigkshyy43knxzzyy19h7xs863dpya51vxs9y716svx9bxlzhcv";
+    url = "https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-beta/microsoft-edge-beta_93.0.961.33-1_amd64.deb";
+    sha256 = "02k34rcgnjv2cbr09gp8yp0ndc91dpq4rl519sx68bnkn3infvws";
   };
 
   nativeBuildInputs = [ patchelf makeWrapper ];
@@ -133,7 +133,7 @@ in stdenv.mkDerivation {
       --prefix PATH            : "$binpath" \
       --prefix XDG_DATA_DIRS   : "$XDG_ICON_DIRS:$GSETTINGS_SCHEMAS_PATH" \
       --add-flags ${escapeShellArg commandLineArgs}
-    for elf in $out/share/microsoft/$appname/{msedge,msedge-sandbox,nacl_helper}; do
+    for elf in $out/share/microsoft/$appname/{msedge,msedge-sandbox,crashpad_handler,nacl_helper}; do
       patchelf --set-rpath $rpath $elf
       patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $elf
     done
