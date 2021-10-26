@@ -18,8 +18,7 @@
         workst = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           modules = [
-            inputs.vital-modules.nixosModules.foundation
-            ./machines/main
+            ./machines/main.nix
             ({
               nixpkgs.overlays = [
                 (final: prev: {

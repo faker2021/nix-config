@@ -20,7 +20,7 @@
     ../modules/flakes.nix
     ../modules/kernel.nix
     ../modules/steam.nix
-    ../modules/anbox.nix
+    #../modules/anbox.nix
     
   ];
 
@@ -45,6 +45,7 @@
     (callPackage ../pkgs/edge { gconf = gnome2.GConf; })
     (callPackage ../pkgs/landrop {})
     (callPackage ../pkgs/listen1 {})
+    (callPackage ../pkgs/lark {})
   ];
   
 
