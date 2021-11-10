@@ -9,7 +9,7 @@
 
     ohMyZsh = {
       enable = true;
-      plugins = [ "git" "zsh-syntax-highlighting" "zsh-autosuggestions" "z" "d"];
+      plugins = [ "git" "z" "d" ];
       theme = "robbyrussel";
     };
   };
