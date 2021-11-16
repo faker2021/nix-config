@@ -2,6 +2,9 @@
 {
   programs.zsh = {
     enable = true;
+    enableAutosuggestions = true;
+    enableCompletion = true;
+
     shellAliases = {
       ll = "ls -l";
       update = "sudo nixos-rebuild switch";
@@ -9,8 +12,8 @@
 
     ohMyZsh = {
       enable = true;
-      plugins = [ "git" "z" "d" ];
-      theme = "robbyrussel";
+      plugins = [ "git" ];
+      theme = "robbyrussell";
     };
   };
 }
