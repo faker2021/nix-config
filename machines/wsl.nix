@@ -15,16 +15,9 @@ in
     ../modules/user.nix
     ../modules/zsh.nix
     ../modules/i18n.nix
+    ../modules/fonts.nix
   ];
 
-  nixpkgs.config.allowUnfree = true;
-  
-  environment.systemPackages = with pkgs; [
-    wget
-    git 
-    nodejs-16_x
-    (callPackage ../pkgs/dirspatchelf { })
-  ];
 
   wsl = {
     enable = true;
