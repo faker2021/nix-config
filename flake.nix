@@ -21,13 +21,19 @@
             ./machines/main.nix
             ({
               nixpkgs.overlays = [
-                (final: prev: {
-
-                })
+                (final: prev: { })
               ];
             })
           ];
         };
+
+        wsl = nixpkgs.lib.nixosSystem rec {
+          system = "x86_64-linux";
+          modules = [
+            ./machines/wsl.nix
+          ];
+        };
+
       };
     };
 }
