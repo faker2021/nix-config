@@ -8,9 +8,12 @@
     utils.url = "github:numtide/flake-utils";
     utils.inputs.nixpkgs.follows = "nixpkgs";
 
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, nixos-wsl, ... }@inputs:
 
     {
       nixosConfigurations = {
@@ -30,6 +33,7 @@
         wsl = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           modules = [
+            nixos-wsl.nixosModules.wsl
             ./machines/wsl.nix
           ];
         };

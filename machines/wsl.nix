@@ -2,17 +2,27 @@
 
 with lib;
 let
-  nixos-wsl = import ./nixos-wsl;
+
 in
 {
   imports = [
     # nixos for wsl 
     "${modulesPath}/profiles/minimal.nix"
-    nixos-wsl.nixosModules.wsl
+    # nixos-wsl.nixosModules.wsl
 
     # user modules
     ../modules/flakes.nix
     ../modules/user.nix
+    ../modules/zsh.nix
+    ../modules/i18n.nix
+  ];
+
+  nixpkgs.config.allowUnfree = true;
+  
+  environment.systemPackages = with pkgs; [
+    git 
+    nodejs-16_x
+    (callPackage ../pkgs/dirspatchelf { })
   ];
 
   wsl = {
@@ -24,10 +34,4 @@ in
     # Enable integration with Docker Desktop (needs to be installed)
     # docker.enable = true;
   };
-
-  # Enable nix flakes
-  nix.package = pkgs.nixFlakes;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
 }
