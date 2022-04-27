@@ -8,7 +8,6 @@ in
   imports = [
     # nixos for wsl 
     "${modulesPath}/profiles/minimal.nix"
-    # nixos-wsl.nixosModules.wsl
 
     # user modules
     ../modules/flakes.nix
