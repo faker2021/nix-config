@@ -15,6 +15,7 @@ in
     ../modules/zsh.nix
     ../modules/i18n.nix
     ../modules/fonts.nix
+    ../modules/dev.nix
   ];
 
 
