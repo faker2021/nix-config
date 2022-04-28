@@ -11,6 +11,8 @@
     git 
     nodejs-16_x
     nixpkgs-fmt
+    tmux
+    redis
     (callPackage ../pkgs/dirspatchelf { })
   ];
 }
