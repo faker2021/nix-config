@@ -16,6 +16,7 @@ in
     ../modules/i18n.nix
     ../modules/fonts.nix
     ../modules/dev.nix
+    ../modules/direnv.nix
   ];
 
 
