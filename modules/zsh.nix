@@ -2,12 +2,11 @@
 {
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    programs.zsh.autosuggestions.enable = true;
     enableCompletion = true;
 
     shellAliases = {
       ll = "ls -l";
-      update = "sudo nixos-rebuild switch";
     };
 
     ohMyZsh = {
