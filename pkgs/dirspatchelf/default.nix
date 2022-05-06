@@ -1,4 +1,3 @@
-
 { pkgs, lib, ... }:
 
-  pkgs.writeShellScriptBin "patchelf-dirs" (builtins.readFile ./dirspatchelf.sh)
+pkgs.writeShellScriptBin "patchelf-dirs" (builtins.readFile ./dirspatchelf.sh)

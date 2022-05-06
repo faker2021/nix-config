@@ -2,9 +2,8 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, lib, ... }:
-{
-  imports = [ 
+{ config, pkgs, lib, ... }: {
+  imports = [
     # (fetchTarball "https://github.com/msteen/nixos-vscode-server/tarball/master")
     # ../vscode-remote.nix
     # /home/yxb/workspace/jsy-mirrorer/modules/jsy-mirrorer.nix
@@ -22,36 +21,44 @@
     ../modules/steam.nix
     ../modules/zsh.nix
     #../modules/anbox.nix
-    
+
   ];
 
   #nixpkgs.config.packageOverrides = import (/home/yxb/Downloads/haha/chrome/overlay) pkgs; # Import overlay that defines a chrome-remote-desktop package
 
   #services = {
-   # chrome-remote-desktop.enable = true; # Enable the service.
+  # chrome-remote-desktop.enable = true; # Enable the service.
   #};
-
 
   # packages
   # nix.binaryCaches = [ "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store" ];
   nixpkgs.config.allowUnfree = true;
 
-
   #nixpkgs.overlays = [ (import ./mypkgs/synergy) ];
   environment.systemPackages = with pkgs; [
-    git clang_11 cmake tree nethogs unrar patchelf
-    vscode nodejs-14_x tdesktop
-    zeal synergy foliate simplenote dropbox
+    git
+    clang_11
+    cmake
+    tree
+    nethogs
+    unrar
+    patchelf
+    vscode
+    nodejs-14_x
+    tdesktop
+    zeal
+    synergy
+    foliate
+    simplenote
+    dropbox
     (callPackage ../pkgs/dirspatchelf { })
     (callPackage ../pkgs/edge { gconf = gnome2.GConf; })
-    (callPackage ../pkgs/landrop {})
-    (callPackage ../pkgs/listen1 {})
+    (callPackage ../pkgs/landrop { })
+    (callPackage ../pkgs/listen1 { })
     # (callPackage ../pkgs/lark {})
   ];
-  
 
   system.stateVersion = "21.05"; # Did you read the comment?
-  
-  
+
 }
 

@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }:
-{
+{ config, pkgs, lib, ... }: {
   networking.firewall.enable = false;
   networking = {
     hostName = "wst";

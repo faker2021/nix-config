@@ -1,14 +1,12 @@
-{pkgs, ... }:
-
+{ pkgs, ... }:
 
 {
 
-
   nixpkgs.config.allowUnfree = true;
-  
+
   environment.systemPackages = with pkgs; [
     wget
-    git 
+    git
     nodejs-16_x
     nixpkgs-fmt
     tmux

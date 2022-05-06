@@ -1,4 +1,1 @@
-{ config, pkgs, lib, ... }:
-{
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-}
+{ config, pkgs, lib, ... }: { boot.kernelPackages = pkgs.linuxPackages_latest; }

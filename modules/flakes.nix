@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }:
-{
+{ config, pkgs, lib, ... }: {
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''

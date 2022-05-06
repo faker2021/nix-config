@@ -11,6 +11,8 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
 
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, nixos-wsl, ... }@inputs:
@@ -22,20 +24,13 @@
           system = "x86_64-linux";
           modules = [
             ./machines/main.nix
-            ({
-              nixpkgs.overlays = [
-                (final: prev: { })
-              ];
-            })
+            ({ nixpkgs.overlays = [ (final: prev: { }) ]; })
           ];
         };
 
         wsl = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          modules = [
-            nixos-wsl.nixosModules.wsl
-            ./machines/wsl.nix
-          ];
+          modules = [ nixos-wsl.nixosModules.wsl ./machines/wsl.nix ];
         };
 
       };

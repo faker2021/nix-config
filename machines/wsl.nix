@@ -3,8 +3,7 @@
 with lib;
 let
 
-in
-{
+in {
   imports = [
     # nixos for wsl 
     "${modulesPath}/profiles/minimal.nix"
@@ -18,7 +17,6 @@ in
     ../modules/dev.nix
     ../modules/direnv.nix
   ];
-
 
   wsl = {
     enable = true;

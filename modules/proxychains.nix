@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }:
-{
+{ config, pkgs, lib, ... }: {
   # packages config
   environment.etc = {
 
@@ -18,6 +17,6 @@
       '';
     };
   };
-  environment.systemPackages = with pkgs; [proxychains];
+  environment.systemPackages = with pkgs; [ proxychains ];
 
 }

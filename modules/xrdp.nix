@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }:
-{
+{ config, pkgs, lib, ... }: {
 
   services.xrdp.enable = true;
   services.xrdp.defaultWindowManager = "gnome3";

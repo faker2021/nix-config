@@ -2,11 +2,10 @@
 
 # Linked dynamic libraries.
 , glib, fontconfig, freetype, pango, cairo, libX11, libXi, atk, gconf, nss, nspr
-, libXcursor, libXext, libXfixes, libXrender, libXScrnSaver, libXcomposite, libxcb
-, alsaLib, libXdamage, libXtst, libXrandr, libxshmfence, expat, cups
-, dbus, gtk3, gdk-pixbuf, gcc-unwrapped, at-spi2-atk, at-spi2-core
-, libkrb5, libdrm, mesa
-, libxkbcommon, wayland # ozone/wayland
+, libXcursor, libXext, libXfixes, libXrender, libXScrnSaver, libXcomposite
+, libxcb, alsaLib, libXdamage, libXtst, libXrandr, libxshmfence, expat, cups
+, dbus, gtk3, gdk-pixbuf, gcc-unwrapped, at-spi2-atk, at-spi2-core, libkrb5
+, libdrm, mesa, libxkbcommon, wayland # ozone/wayland
 
 # Command line programs
 , coreutils
@@ -14,7 +13,7 @@
 # command line arguments which are always set e.g "--disable-gpu"
 , commandLineArgs ? ""
 
-# Will crash without.
+  # Will crash without.
 , systemd
 
 # Loaded at runtime.
@@ -31,44 +30,79 @@
 # Which distribution channel to use.
 , channel ? "beta"
 
-# Necessary for USB audio devices.
+  # Necessary for USB audio devices.
 , pulseSupport ? true, libpulseaudio ? null
 
-, gsettings-desktop-schemas
-, gnome
+, gsettings-desktop-schemas, gnome
 
 # For video acceleration via VA-API (--enable-features=VaapiVideoDecoder)
 , libvaSupport ? true, libva
 
 # For Vulkan support (--enable-features=Vulkan)
-, vulkanSupport ? true, vulkan-loader
-}:
+, vulkanSupport ? true, vulkan-loader }:
 
 with lib;
 
 let
-  opusWithCustomModes = libopus.override {
-    withCustomModes = true;
-  };
+  opusWithCustomModes = libopus.override { withCustomModes = true; };
 
   version = "93.0.961.33";
 
   deps = [
-    glib fontconfig freetype pango cairo libX11 libXi atk gconf nss nspr
-    libXcursor libXext libXfixes libXrender libXScrnSaver libXcomposite libxcb
-    alsaLib libXdamage libXtst libXrandr libxshmfence expat cups
-    dbus gdk-pixbuf gcc-unwrapped.lib
+    glib
+    fontconfig
+    freetype
+    pango
+    cairo
+    libX11
+    libXi
+    atk
+    gconf
+    nss
+    nspr
+    libXcursor
+    libXext
+    libXfixes
+    libXrender
+    libXScrnSaver
+    libXcomposite
+    libxcb
+    alsaLib
+    libXdamage
+    libXtst
+    libXrandr
+    libxshmfence
+    expat
+    cups
+    dbus
+    gdk-pixbuf
+    gcc-unwrapped.lib
     systemd
     libexif
-    liberation_ttf curl util-linux xdg-utils wget
-    flac harfbuzz icu libpng opusWithCustomModes snappy speechd
-    bzip2 libcap at-spi2-atk at-spi2-core
-    libkrb5 libdrm mesa coreutils
-    libxkbcommon wayland
-  ] ++ optional pulseSupport libpulseaudio
-    ++ optional libvaSupport libva
-    ++ optional vulkanSupport vulkan-loader
-    ++ [ gtk3 ];
+    liberation_ttf
+    curl
+    util-linux
+    xdg-utils
+    wget
+    flac
+    harfbuzz
+    icu
+    libpng
+    opusWithCustomModes
+    snappy
+    speechd
+    bzip2
+    libcap
+    at-spi2-atk
+    at-spi2-core
+    libkrb5
+    libdrm
+    mesa
+    coreutils
+    libxkbcommon
+    wayland
+  ] ++ optional pulseSupport libpulseaudio ++ optional libvaSupport libva
+    ++ optional vulkanSupport vulkan-loader ++ [ gtk3 ];
 
   suffix = "-" + channel;
 
@@ -78,14 +112,17 @@ in stdenv.mkDerivation {
   name = "microsoft-edge${suffix}-${version}";
 
   src = fetchurl {
-    url = "https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-beta/microsoft-edge-beta_93.0.961.33-1_amd64.deb";
+    url =
+      "https://packages.microsoft.com/repos/edge/pool/main/m/microsoft-edge-beta/microsoft-edge-beta_93.0.961.33-1_amd64.deb";
     sha256 = "02k34rcgnjv2cbr09gp8yp0ndc91dpq4rl519sx68bnkn3infvws";
   };
 
   nativeBuildInputs = [ patchelf makeWrapper ];
   buildInputs = [
     # needed for GSETTINGS_SCHEMAS_PATH
-    gsettings-desktop-schemas glib gtk3
+    gsettings-desktop-schemas
+    glib
+    gtk3
 
     # needed for XDG_ICON_DIRS
     gnome.adwaita-icon-theme
