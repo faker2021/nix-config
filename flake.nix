@@ -15,7 +15,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, ... }@inputs:
+  outputs = { self, nixpkgs, nixos-wsl, home-manager, ... }@inputs:
 
     {
       nixosConfigurations = {
@@ -28,9 +28,21 @@
           ];
         };
 
-        wsl = nixpkgs.lib.nixosSystem rec {
+        wst = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
-          modules = [ nixos-wsl.nixosModules.wsl ./machines/wsl.nix ];
+          modules = [
+            nixos-wsl.nixosModules.wsl
+            ./machines/wsl.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.yxb = import ./modules/home_wst.nix;
+
+              # Optionally, use home-manager.extraSpecialArgs to pass
+              # arguments to home.nix
+            }
+          ];
         };
 
       };
