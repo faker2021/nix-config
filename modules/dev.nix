@@ -13,6 +13,7 @@
     nixpkgs-fmt
     tmux
     redis
+    nixfmt
     (callPackage ../pkgs/dirspatchelf { })
   ];
 }
