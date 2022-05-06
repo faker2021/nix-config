@@ -33,6 +33,7 @@
           modules = [
             nixos-wsl.nixosModules.wsl
             ./machines/wsl.nix
+            ./modules/redis.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
