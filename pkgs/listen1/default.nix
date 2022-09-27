@@ -1,8 +1,7 @@
-
-
 { appimageTools, fetchurl }:
 
-appimageTools.wrapType2 { # or wrapType1
+appimageTools.wrapType2 {
+  # or wrapType1
   name = "listen1";
   src = fetchurl {
     url =

@@ -21,7 +21,8 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in {
+    in
+    {
       nixosConfigurations = {
 
         workst = nixpkgs.lib.nixosSystem rec {

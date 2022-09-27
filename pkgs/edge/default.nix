@@ -1,45 +1,96 @@
-{ lib, stdenv, patchelf, makeWrapper, fetchurl
+{ lib
+, stdenv
+, patchelf
+, makeWrapper
+, fetchurl
 
-# Linked dynamic libraries.
-, glib, fontconfig, freetype, pango, cairo, libX11, libXi, atk, gconf, nss, nspr
-, libXcursor, libXext, libXfixes, libXrender, libXScrnSaver, libXcomposite
-, libxcb, alsaLib, libXdamage, libXtst, libXrandr, libxshmfence, expat, cups
-, dbus, gtk3, gdk-pixbuf, gcc-unwrapped, at-spi2-atk, at-spi2-core, libkrb5
-, libdrm, mesa, libxkbcommon, wayland # ozone/wayland
+  # Linked dynamic libraries.
+, glib
+, fontconfig
+, freetype
+, pango
+, cairo
+, libX11
+, libXi
+, atk
+, gconf
+, nss
+, nspr
+, libXcursor
+, libXext
+, libXfixes
+, libXrender
+, libXScrnSaver
+, libXcomposite
+, libxcb
+, alsaLib
+, libXdamage
+, libXtst
+, libXrandr
+, libxshmfence
+, expat
+, cups
+, dbus
+, gtk3
+, gdk-pixbuf
+, gcc-unwrapped
+, at-spi2-atk
+, at-spi2-core
+, libkrb5
+, libdrm
+, mesa
+, libxkbcommon
+, wayland # ozone/wayland
 
-# Command line programs
+  # Command line programs
 , coreutils
 
-# command line arguments which are always set e.g "--disable-gpu"
+  # command line arguments which are always set e.g "--disable-gpu"
 , commandLineArgs ? ""
 
   # Will crash without.
 , systemd
 
-# Loaded at runtime.
+  # Loaded at runtime.
 , libexif
 
-# Additional dependencies according to other distros.
-## Ubuntu
-, liberation_ttf, curl, util-linux, xdg-utils, wget
-## Arch Linux.
-, flac, harfbuzz, icu, libpng, libopus, snappy, speechd
-## Gentoo
-, bzip2, libcap
+  # Additional dependencies according to other distros.
+  ## Ubuntu
+, liberation_ttf
+, curl
+, util-linux
+, xdg-utils
+, wget
+  ## Arch Linux.
+, flac
+, harfbuzz
+, icu
+, libpng
+, libopus
+, snappy
+, speechd
+  ## Gentoo
+, bzip2
+, libcap
 
-# Which distribution channel to use.
+  # Which distribution channel to use.
 , channel ? "beta"
 
   # Necessary for USB audio devices.
-, pulseSupport ? true, libpulseaudio ? null
+, pulseSupport ? true
+, libpulseaudio ? null
 
-, gsettings-desktop-schemas, gnome
+, gsettings-desktop-schemas
+, gnome
 
-# For video acceleration via VA-API (--enable-features=VaapiVideoDecoder)
-, libvaSupport ? true, libva
+  # For video acceleration via VA-API (--enable-features=VaapiVideoDecoder)
+, libvaSupport ? true
+, libva
 
-# For Vulkan support (--enable-features=Vulkan)
-, vulkanSupport ? true, vulkan-loader }:
+  # For Vulkan support (--enable-features=Vulkan)
+, vulkanSupport ? true
+, vulkan-loader
+}:
 
 with lib;
 
@@ -102,11 +153,12 @@ let
     libxkbcommon
     wayland
   ] ++ optional pulseSupport libpulseaudio ++ optional libvaSupport libva
-    ++ optional vulkanSupport vulkan-loader ++ [ gtk3 ];
+  ++ optional vulkanSupport vulkan-loader ++ [ gtk3 ];
 
   suffix = "-" + channel;
 
-in stdenv.mkDerivation {
+in
+stdenv.mkDerivation {
   inherit version;
 
   name = "microsoft-edge${suffix}-${version}";
