@@ -3,7 +3,7 @@
   description = "All of our deployment, period";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-21.11";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
 
     utils.url = "github:numtide/flake-utils";
     utils.inputs.nixpkgs.follows = "nixpkgs";
@@ -11,13 +11,17 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nixos-wsl, home-manager, ... }@inputs:
-
-    {
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
       nixosConfigurations = {
 
         workst = nixpkgs.lib.nixosSystem rec {
@@ -44,5 +48,16 @@
         };
 
       };
+
+      homeConfigurations.yxb = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+
+        modules = [
+          ./home/user-yxb.nix
+        ];
+
+      };
+
+
     };
 }
