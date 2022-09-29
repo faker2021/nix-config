@@ -6,6 +6,7 @@
 
   home.packages = [
     pkgs.nixpkgs-fmt
+    pkgs.conda
   ];
 
   programs.git = {
@@ -19,6 +20,15 @@
     };
   };
 
+  home.file = {
+    ".config/nix/nix.conf" =
+      {
+        text = ''
+          experimental-features = nix-command flakes
+          substituters = https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store https://cache.nixos.org/
+        '';
+      };
+  };
 
   home.stateVersion = "22.05";
   programs.home-manager.enable = true;
