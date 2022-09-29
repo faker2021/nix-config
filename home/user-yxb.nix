@@ -21,13 +21,7 @@
   };
 
   home.file = {
-    ".config/nix/nix.conf" =
-      {
-        text = ''
-          experimental-features = nix-command flakes
-          substituters = https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store https://cache.nixos.org/
-        '';
-      };
+    ".config/nix/nix.conf".source = ./files/.config/nix/nix.conf;
   };
 
   home.stateVersion = "22.05";
