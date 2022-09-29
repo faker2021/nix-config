@@ -8,6 +8,12 @@
 
     shellAliases = { ll = "ls -l"; };
 
+    initExtraBeforeCompInit = ''
+      # p10k instant prompt
+      P10K_INSTANT_PROMPT="$XDG_CACHE_HOME/p10k-instant-prompt-''${(%):-%n}.zsh"
+      [[ ! -r "$P10K_INSTANT_PROMPT" ]] || source "$P10K_INSTANT_PROMPT"
+    '';
+
     initExtra = ''
       # surely something else has these defaults?
       bindkey "^[[H"    beginning-of-line
@@ -21,9 +27,22 @@
     zplug = {
       enable = true;
       plugins = [
-        { name = "romkatv/powerlevel10k"; tags = [ as:theme depth:1 ]; } # Installations with additional options. For the list of options, please refer to Zplug README.
+        { name = "zdharma-continuum/fast-syntax-highlighting"; }
       ];
     };
+
+    plugins = with pkgs; [
+      {
+        file = "powerlevel10k.zsh-theme";
+        name = "powerlevel10k";
+        src = "${zsh-powerlevel10k}/share/zsh-powerlevel10k";
+      }
+      {
+        file = "p10k.zsh";
+        name = "powerlevel10k-config";
+        src = ./files;
+      }
+    ];
 
     history = {
       size = 99999;
