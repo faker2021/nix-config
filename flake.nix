@@ -60,6 +60,16 @@
 
       };
 
+      homeConfigurations.maho = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+
+        modules = [
+          ./home/user-maho.nix
+          ./home/zsh.nix
+        ];
+
+      };
+
 
     };
 }
