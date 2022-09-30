@@ -13,7 +13,11 @@
     enableVteIntegration = true;
     defaultKeymap = "viins";
 
-    shellAliases = { ll = "ls -l"; };
+    shellAliases = {
+      ll = "ls -l";
+      cmake_debug = "cmake -DCMAKE_BUILD_TYPE=Debug ..";
+      format_all = "echo $(find -name *.cc)+$(find -name *.h) | while read -r a; do clang-format --verbose -i --style=file $a; done";
+    };
 
     initExtraBeforeCompInit = ''
       # p10k instant prompt
