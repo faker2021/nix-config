@@ -55,7 +55,7 @@
 
         modules = [
           ./home/user-yxb.nix
-          ./home/zsh.nix
+          ./home/shell.nix
         ];
 
       };
