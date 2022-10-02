@@ -1,5 +1,11 @@
 { config, pkgs, lib, ... }: {
 
+  home.packages = [
+    pkgs.bat
+    pkgs.htop
+    pkgs.lsd
+  ];
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
@@ -53,6 +59,16 @@
         file = "p10k.zsh";
         name = "powerlevel10k-config";
         src = ./files;
+      }
+      {
+        name = "enhancd";
+        file = "init.sh";
+        src = pkgs.fetchFromGitHub {
+          owner = "b4b4r07";
+          repo = "enhancd";
+          rev = "c6967f7f70f18991a5f9148996afffc0d3ae76e4";
+          sha256 = "p7ZG4NC9UWa55tPxYAaFocc0waIaTt+WO6MNearbO0U=";
+        };
       }
     ];
 
