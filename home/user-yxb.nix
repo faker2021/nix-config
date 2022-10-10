@@ -4,10 +4,7 @@
   home.username = "yxb";
   home.homeDirectory = "/home/yxb";
 
-  home.packages = [
-    pkgs.nixpkgs-fmt
-    pkgs.conda
-  ];
+  home.packages = [ pkgs.nixpkgs-fmt pkgs.conda ];
 
   programs.git = {
     package = pkgs.gitAndTools.gitFull;
@@ -18,11 +15,13 @@
       key = "nspyia2002@gmail.com";
       signByDefault = false;
     };
+    extraConfig = {
+      push.default = "current";
+      push.autoSetupRemote = "true";
+    };
   };
 
-  home.file = {
-    ".config/nix/nix.conf".source = ./files/.config/nix/nix.conf;
-  };
+  home.file = { ".config/nix/nix.conf".source = ./files/.config/nix/nix.conf; };
 
   home.stateVersion = "22.05";
   programs.home-manager.enable = true;
