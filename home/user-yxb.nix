@@ -1,10 +1,12 @@
 { config, pkgs, ... }:
+let
 
-{
+  gt = (pkgs.python3Packages.callPackage ../pkgs/gt { });
+in {
   home.username = "yxb";
   home.homeDirectory = "/home/yxb";
 
-  home.packages = [ pkgs.nixpkgs-fmt pkgs.conda ];
+  home.packages = [ pkgs.nixpkgs-fmt pkgs.conda gt ];
 
   programs.git = {
     package = pkgs.gitAndTools.gitFull;
