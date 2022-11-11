@@ -3,7 +3,6 @@
   home.packages = [
     pkgs.bat
     pkgs.htop
-    pkgs.lsd
   ];
 
   programs.direnv = {
