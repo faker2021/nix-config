@@ -15,6 +15,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    vscode-server.url = "github:faker2021/nixos-vscode-server";
+
   };
 
   outputs = { self, nixpkgs, nixos-wsl, home-manager, ... }@inputs:
@@ -51,8 +54,8 @@
 
       homeConfigurations.yxb = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-
-        modules = [ ./home/user-yxb.nix ./home/shell.nix ];
+        modules =
+          [ ./home/user-yxb.nix ./home/shell.nix ./home/vscode-server.nix ];
 
       };
 
