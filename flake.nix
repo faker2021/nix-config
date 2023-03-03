@@ -6,7 +6,6 @@
     nixpkgs.url = "nixpkgs/nixos-unstable";
 
     utils.url = "github:numtide/flake-utils";
-    utils.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
@@ -24,7 +23,8 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in {
+    in
+    {
       nixosConfigurations = {
 
         workst = nixpkgs.lib.nixosSystem rec {
