@@ -6,7 +6,7 @@ in {
   home.username = "yxb";
   home.homeDirectory = "/home/yxb";
 
-  home.packages = [ pkgs.nixpkgs-fmt pkgs.conda gt ];
+  home.packages = [ pkgs.nixpkgs-fmt pkgs.conda gt pkgs.hotspot];
 
   programs.git = {
     package = pkgs.gitAndTools.gitFull;
