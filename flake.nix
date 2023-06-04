@@ -59,5 +59,13 @@
 
       };
 
+      
+      homeConfigurations.wsl = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        modules =
+          [ ./home/user-yxb.nix ./home/shell.nix ];
+
+      };
+
     };
 }
