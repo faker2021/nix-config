@@ -60,7 +60,7 @@ def create_pull_request(
     return pr
 
 
-def merge_pr_and_cleanup(repo, pr, pr_branch_name):
+def merge_pr_and_cleanup(repo, pr, pr_branch_name, original_branch):
     pr.merge(merge_method="rebase")
     print(f"pr merged: {pr.html_url}")
 
@@ -71,15 +71,21 @@ def merge_pr_and_cleanup(repo, pr, pr_branch_name):
     except git.GitCommandError as e:
         print(f"Error pulling changes: {e}")
 
-    branch = repo.create_head(pr_branch_name)
-    branch.checkout()
+    try:
+        repo.git.checkout(original_branch)
+        print(f"Switched to original branch: {original_branch}")
+    except git.GitCommandError as e:
+        print(f"Error switching to original branch: {e}")
 
-    repo.delete_head(pr_branch_name)
-    print(f"pr branch {pr_branch_name} deleted")
+    try:
+        repo.git.branch("-d", pr_branch_name)
+        print(f"Local pr branch {pr_branch_name} deleted")
+    except git.GitCommandError as e:
+        print(f"Error deleting local branch: {e}")
 
     try:
         repo.git.push("--delete", "origin", pr_branch_name)
-        print(f"remote pr branch {pr_branch_name} deleted")
+        print(f"Remote pr branch {pr_branch_name} deleted")
     except git.GitCommandError as e:
         print(f"Error deleting remote branch: {e}")
 
@@ -114,7 +120,7 @@ def pr(path: str, auto_merge: bool, pr_title: str, pr_body: str):
 
     print(f"pr created: {pr.html_url}")
     if auto_merge:
-        merge_pr_and_cleanup(repo, pr, pr_branch_name)
+        merge_pr_and_cleanup(repo, pr, pr_branch_name, branch_name)
 
     repo.close()
 
