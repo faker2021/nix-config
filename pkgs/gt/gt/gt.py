@@ -65,17 +65,17 @@ def merge_pr_and_cleanup(repo, pr, pr_branch_name, original_branch):
     print(f"pr merged: {pr.html_url}")
 
     try:
+        repo.git.checkout(original_branch)
+        print(f"Switched to original branch: {original_branch}")
+    except git.GitCommandError as e:
+        print(f"Error switching to original branch: {e}")
+
+    try:
         repo.git.fetch()
         # Auto stash local modifications before pull
         repo.git.pull(rebase=True, autostash=True)
     except git.GitCommandError as e:
         print(f"Error pulling changes: {e}")
-
-    try:
-        repo.git.checkout(original_branch)
-        print(f"Switched to original branch: {original_branch}")
-    except git.GitCommandError as e:
-        print(f"Error switching to original branch: {e}")
 
     try:
         repo.git.branch("-d", pr_branch_name)
