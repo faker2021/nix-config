@@ -37,14 +37,14 @@
   #nixpkgs.overlays = [ (import ./mypkgs/synergy) ];
   environment.systemPackages = with pkgs; [
     git
-    clang_11
+    clang_16
     cmake
     tree
     nethogs
     unrar
     patchelf
     vscode
-    nodejs-14_x
+    nodejs-16_x
     tdesktop
     zeal
     synergy
@@ -58,7 +58,7 @@
     # (callPackage ../pkgs/lark {})
   ];
 
-  system.stateVersion = "21.05"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 
 }
 

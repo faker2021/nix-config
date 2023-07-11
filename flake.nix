@@ -55,7 +55,7 @@
       homeConfigurations.yxb = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules =
-          [ ./home/user-yxb.nix ./home/shell.nix ./home/vscode-server.nix ];
+          [ ./home/user-yxb.nix ./home/shell.nix];
 
       };
 
