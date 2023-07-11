@@ -1,83 +1,101 @@
-import os
 import click
+import github
 import git
-from github import Github
 
-def read_token():
-    with open(os.path.join(os.path.expanduser("~"), ".ssh/tk")) as f:
-        return f.read()
 
 @click.group()
 def main():
     pass
 
+
+def read_token():
+    import os
+
+    home = os.path.expanduser("~")
+    with open(os.path.join(home, ".ssh/tk")) as f:
+        return f.read()
+
+
 @main.command()
+# @click.option(
+#     "book", "--book", help="the book id", type=click.STRING, default="default"
+# )
 def demo():
-    github_client = Github(read_token())
-    for repo in github_client.get_user().get_repos():
+    g = github.Github(read_token())
+    for repo in g.get_user().get_repos():
         print(repo.name)
 
-@main.command()
-@click.option("--path", default=".", help="The path of repo")
-@click.option("--merge", default=True, type=click.BOOL, help="Automerge option")
-@click.option("--title", default=None, help="Title of the pull request")
-@click.option("--body", default=None, help="Body of the pull request")
-def pr(path: str, auto_merge: bool, pr_title: str, pr_body: str):
-    github_client = Github(read_token())
-    repo = git.Repo.init(path=path)
-    branch_name = repo.head.ref.name
-    remote_commits = list(repo.iter_commits(f"remotes/origin/{branch_name}"))
-    local_commits = list(repo.iter_commits(branch_name))
-    unpushed_commits = [c for c in local_commits if c not in remote_commits]
 
-    if not unpushed_commits:
-        print("Nothing to commit.")
+# def pr(path: str, auto_merge: bool, pr_title: str, pr_body: str):
+@main.command()
+@click.option("path", "--path", help="the path of repo", type=click.STRING, default=".")
+@click.option("auto_merge", "--merge", help="auto_merge", type=click.BOOL, default=True)
+@click.option("pr_title", "--title", help="pr_title", type=click.STRING, default=None)
+@click.option("pr_body", "--body", help="pr_body", type=click.STRING, default=None)
+def pr(path: str, auto_merge: bool, pr_title: str, pr_body: str):
+    """这个函数会做这些事：
+    1. 从本地获取当前分支名
+    2. 从本地获取当前分支的未push的commits, 以及commit message
+    3. 从当前分支新建出一个 pr-xxx 分支
+    4. 创建一个 pr 为 pr-xxx 分支合并到当前分支
+    """
+    g = github.Github(read_token())
+    repo = git.Repo.init(path=path)
+    head = repo.head
+    branch_name = head.ref.name
+    remote_commits = list(repo.iter_commits(f"remotes/origin/{branch_name}"))
+    commits = list(repo.iter_commits(branch_name))
+    delta_commits = list(filter(lambda c: c not in remote_commits, commits))
+    delta_commit_messages = [c.message for c in delta_commits]
+
+    if len(delta_commits) == 0:
+        print("nothing to commit")
         return
 
     pr_branch_name = f"pr-{str(remote_commits[0])[:7]}"
     pr_branch = repo.create_head(pr_branch_name)
     pr_branch.checkout()
-    repo.git.push("--set-upstream", "origin", pr_branch_name)
-    print(f"PR branch {pr_branch_name} created.")
+    try:
+        repo.git.push("--set-upstream", "origin", pr_branch_name)
+        print(f"pr branch {pr_branch_name} created")
 
-    owner, repo_name = get_owner_and_repo_name(repo)
-    github_repo = github_client.get_repo(f"{owner}/{repo_name}")
+        # get repo owner and repo_name
+        remote_url = repo.remote().url
+        owner, repo_name = remote_url.split("/")[-2:]
+        owner = owner.split(":")[-1]
+        repo_name = repo_name.split(".")[0]
+        github_repo = g.get_repo(f"{owner}/{repo_name}")
+        pr = github_repo.create_pull(
+            title=pr_title or f"pr-{branch_name}-{str(remote_commits[0])[:7]}",
+            body=pr_body or "\n".join(delta_commit_messages),
+            head=pr_branch_name,
+            base=branch_name,
+        )
 
-    pr = create_pr(github_repo, pr_branch_name, branch_name, unpushed_commits, pr_title, pr_body)
+        print(f"pr created: {pr.html_url}")
+        if auto_merge:
+            # use rebase and merge
+            pr.merge(merge_method="rebase")
+            print(f"pr merged: {pr.html_url}")
 
-    print(f"PR created: {pr.html_url}")
+            # git pull --rebase
+            repo.remote().fetch()
+            repo.remote().pull(rebase=True)
 
-    if auto_merge:
-        merge_pr_and_pull_changes(repo, pr)
+        # delete pr branch
+    finally:
+        # checkout to branch_name
+        branch = repo.create_head(branch_name)
+        branch.checkout()
 
-    cleanup_pr_branch(repo, branch_name, pr_branch, pr_branch_name, auto_merge)
+        repo.delete_head(pr_branch)
+        print(f"pr branch {pr_branch_name} deleted")
 
-def get_owner_and_repo_name(repo):
-    remote_url = repo.remote().url
-    owner, repo_name = remote_url.split("/")[-2:]
-    return owner.split(":")[-1], repo_name.split(".")[0]
+        if auto_merge:
+            repo.git.push("--delete", "origin", pr_branch_name)
+            print(f"remote pr branch {pr_branch_name} deleted")
+        repo.close()
 
-def create_pr(github_repo, pr_branch_name, branch_name, unpushed_commits, pr_title, pr_body):
-    title = pr_title or f"pr-{branch_name}-{str(unpushed_commits[0])[:7]}"
-    body = pr_body or "\n".join([c.message for c in unpushed_commits])
-    return github_repo.create_pull(title=title, body=body, head=pr_branch_name, base=branch_name)
-
-def merge_pr_and_pull_changes(repo, pr):
-    pr.merge(merge_method="rebase")
-    print(f"PR merged: {pr.html_url}")
-
-    repo.remote().fetch()
-    repo.remote().pull(rebase=True)
-
-def cleanup_pr_branch(repo, branch_name, pr_branch, pr_branch_name, auto_merge):
-    branch = repo.create_head(branch_name)
-    branch.checkout()
-    repo.delete_head(pr_branch)
-    print(f"PR branch {pr_branch_name} deleted.")
-    if auto_merge:
-        repo.git.push("--delete", "origin", pr_branch_name)
-        print(f"Remote PR branch {pr_branch_name} deleted.")
-    repo.close()
 
 if __name__ == "__main__":
     main()
