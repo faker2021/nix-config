@@ -25,32 +25,7 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      nixosConfigurations = {
 
-        workst = nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
-          modules = [
-            ./machines/main.nix
-            ({ nixpkgs.overlays = [ (final: prev: { }) ]; })
-          ];
-        };
-
-        wst = nixpkgs.lib.nixosSystem rec {
-          system = "x86_64-linux";
-          modules = [
-            nixos-wsl.nixosModules.wsl
-            ./machines/wsl.nix
-            ./modules/redis.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.yxb = import ./home/wst.nix;
-            }
-          ];
-        };
-
-      };
 
       homeConfigurations.yxb = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;

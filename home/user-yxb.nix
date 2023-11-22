@@ -1,13 +1,15 @@
 { config, pkgs, ... }:
 let
 
-  gt = (pkgs.python3Packages.callPackage ../pkgs/gt { });
-  dirspatchelf = (pkgs.callPackage ../pkgs/dirspatchelf { });
+
+
 in {
+  programs.home-manager.enable = true;
+
   home.username = "yxb";
   home.homeDirectory = "/home/yxb";
 
-  home.packages = [ pkgs.nixpkgs-fmt pkgs.conda gt pkgs.hotspot pkgs.clang_16 dirspatchelf];
+  home.packages = [ pkgs.nixpkgs-fmt pkgs.conda pkgs.hotspot pkgs.clang_16 ];
 
   programs.git = {
     package = pkgs.gitAndTools.gitFull;
@@ -28,5 +30,4 @@ in {
 
   home.enableNixpkgsReleaseCheck = false;
   home.stateVersion = "23.05";
-  programs.home-manager.enable = true;
 }
