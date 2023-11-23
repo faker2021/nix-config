@@ -9,7 +9,7 @@ in {
   home.username = "yxb";
   home.homeDirectory = "/home/yxb";
 
-  home.packages = [ pkgs.nixpkgs-fmt pkgs.conda pkgs.hotspot pkgs.clang_16 ];
+  home.packages = [ pkgs.nixpkgs-fmt pkgs.htop];
 
   programs.git = {
     package = pkgs.gitAndTools.gitFull;
